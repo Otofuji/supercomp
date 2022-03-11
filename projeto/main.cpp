@@ -4,14 +4,11 @@
 
 using namespace std;
 
-typedef struct matrix{
-    //  https://www.daniweb.com/programming/software-development/threads/320739/matrix-struct-and-adding-matrices
-
-    int rows;
-    int cols;
-    float **mat;
-
-} Matrix;
+struct matriz { //Com base em exemplo do professor e em https://people.engr.tamu.edu/djimenez/ut/utsa/cs1723/lecture3.html
+    int x;
+    int y;
+    double max;
+};
 
 int smith_waterman(matriz &mat, std::vector<double> &x, std::vector<double> &y) {
     int max = 0;
@@ -36,21 +33,23 @@ int smith_waterman(matriz &mat, std::vector<double> &x, std::vector<double> &y) 
 }
 
 int main() {
-    //Criando uma matriz clássica do C++ usando struct, tendo por base https://gist.github.com/AaronGoldsmith/484c18cfb0637a18d1ec344090514fb7
+    //Criando uma matriz clássica do C++ usando struct, tendo por base exemplo do professor e https://people.engr.tamu.edu/djimenez/ut/utsa/cs1723/lecture3.html
+
     
+    int n;
+    int m;
     
      
-    std::cin >> n >> m;
-    x.reserve(n);
-    y.reserve(n);
-    for (int i = 0; i < n; i++) {
-        double xt, yt;
-        std::cin >> xt >> yt;
-        x.push_back(xt);
-        y.push_back(yt);
+    cin >> n >> m;
+    matriz alinhamento[n][m];
+    
+    for (int i = 0; i < n; i++){
+        for (int j = 0; j < m; j++){
+            alinhamento[i][j].max = 0;
+        }
     }
 
-    int smith_waterman_max = smith_waterman(mat, x, y);
+    int smith_waterman_max = smith_waterman(alinhamento, x, y);
     
     
     return 0;
