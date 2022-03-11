@@ -15,6 +15,8 @@ int main() {
 
     int n = 0;
     int W = 0;
+    int melhor_valor = 0;
+    int amostras = 100;
 
     vector<item> mochila;
 
@@ -35,8 +37,7 @@ int main() {
         cin >> valor;
         items.push_back({i, peso, valor});
     }
-    //ordenacao dos itens
-    sort(items.begin(), items.end(), [](auto& i, auto& j){return i.valor > j.valor;});
+   
     peso = 0;
     valor = 0;
     int i = 1; // controla a posicao para selecionar item ainda nao obtido 
@@ -50,7 +51,7 @@ int main() {
            
        }
 
-       if (distribution(generator) > 0.75 && i < n) {
+       if (distribution(generator) > 0.5 && i < n) {
            //escolha aleatoria de todos os outros itens
            uniform_int_distribution<int> distributionInt(i,n-1);
            int p = distributionInt(generator);
