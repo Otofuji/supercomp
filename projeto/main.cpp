@@ -50,9 +50,16 @@ int main() {
         }
     }
 
+    //LOOP APENAS PARA FINS DE DEBUGGING
+    for (int i = 0; i < n; i++){
+        for (int j = 0; j < m; j++){
+            cout << alinhamento[i][j] << endl;
+        }
+    }
 
 
-    int smith_waterman_max = smith_waterman(alinhamento, x, y);
+
+    //int smith_waterman_max = smith_waterman(&alinhamento, &x, &y);
 
     return 0;
 }
