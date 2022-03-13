@@ -1,6 +1,6 @@
 #include<iostream>
 #include<vector>
-#include <string>
+#include <cmath>
 
 using namespace std;
 
@@ -38,10 +38,9 @@ int main() {
 
     int n;
     int m;
-    string x;
-    string y;
 
-    cin >> n >> m >> x >> y;
+
+    cin >> n >> m;
     matriz alinhamento[n][m];
 
     for (int i = 0; i < n; i++){
@@ -52,7 +51,13 @@ int main() {
 
 
 
-    int smith_waterman_max = smith_waterman(alinhamento, x, y);
+    //int smith_waterman_max = smith_waterman(alinhamento, x, y);
+
+    for (int i = 0; i < n; i++){
+        for (int j = 0; j < m; j++){
+            cout << alinhamento[i][j];
+        }
+    }
 
     return 0;
 }
