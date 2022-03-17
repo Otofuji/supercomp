@@ -42,9 +42,8 @@ int smith_waterman(int &n, int &m, int &a, int &b) {
     for (int i = 1; i < n; i++){
         for (int j = 1; j < m; j++) {
             if (a[i] == b[j]) {
-                alinhamento[i][j].max++; //TODO calcular +2 da diagonal
-                //TODO calcular os quatro valores 
-                alinhamento[i][j].max++;
+                
+                alinhamento[i][j].max = alinhamento[i-1][j-1] + 2; 
                 alinhamento[i][j].x = i-1;
                 alinhamento[i][j].y = j-1;
 
