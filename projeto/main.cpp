@@ -39,26 +39,61 @@ int smith_waterman(int &n, int &m, int &a, int &b) {
         }
     }
 
-    for (int i = 0; i < n; i++){
-        for (int j = 0; j < m; j++) {
+    for (int i = 1; i < n; i++){
+        for (int j = 1; j < m; j++) {
             if (a[i] == b[j]) {
-                alinhamento[i-1][j-1].max++;
-                alinhamento[i-1][j-1].max++;
-                alinhamento[i-1][j-1].x = i-1;
-                alinhamento[i-1][j-1].y = j-1;
+                alinhamento[i][j].max++; //TODO calcular +2 da diagonal
+                //TODO calcular os quatro valores 
+                alinhamento[i][j].max++;
+                alinhamento[i][j].x = i-1;
+                alinhamento[i][j].y = j-1;
 
-                if (alinhamento[i-1][j-1].max > maximum) {
-                    maximum = alinhamento[i-1][j-1].max;
+                if (alinhamento[i][j].max > maximum) {
+                    maximum = alinhamento[i][j].max;
                 }
             }
-            
+
             else {
                 if (a[i] != b[j]) {
-                    alinhamento[i-1][j-1].max--;
-                    if (alinhamento[i-1][j-1].max < 0) {
-                        alinhamento[i-1][j-1].max = 0;
+                    
+                    // alinhamento[i][j].max = max(alinhamento[i-1][j-1].max-1, (max(alinhamento[i][j-1].max, alinhamento[i-1][j].max)));
+                    // alinhamento[i][j].x = i-1;
+                    // alinhamento[i][j].y = j-1;
+
+                    if (alinhamento[i][j].max < alinhamento[i-1][j-1].max) {
+                        alinhamento[i][j].max = alinhamento[i-1][j-1].max;
+                        alinhamento[i][j].x = i-1;
+                        alinhamento[i][j].y = j-1;
+                    }
+
+                    if (alinhamento[i][j].max < alinhamento[i][j-1].max) {
+                        alinhamento[i][j].max = alinhamento[i][j-1].max;
+                        alinhamento[i][j].x = i;
+                        alinhamento[i][j].y = j-1;
+                    }
+
+                    if (alinhamento[i][j].max < alinhamento[i-1][j].max) {
+                        alinhamento[i][j].max = alinhamento[i-1][j].max;
+                        alinhamento[i][j].x = i-1;
+                        alinhamento[i][j].y = j;
+                    }
+
+                    if (alinhamento[i][j].max < 0) {
+                        alinhamento[i][j].max = 0;
                     }
                 }
+            }
+        }
+    }
+    //TODO while valor da anterior for diferente de zero, vai voltando conforme o caminho
+    for (int i = n; i >= 0; i--){
+        for (int j = m; j >= 0; j--) {
+            if (alinhamento[i][j].x != i-1) {
+                
+            }
+            
+            if (alinhamento[i][j].y != j-1) {
+                
             }
         }
     }
