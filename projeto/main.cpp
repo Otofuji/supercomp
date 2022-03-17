@@ -42,22 +42,29 @@ int smith_waterman(int &n, int &m, int &a, int &b) {
     for (int i = 1; i < n; i++){
         for (int j = 1; j < m; j++) {
             if (a[i] == b[j]) {
-                
-                alinhamento[i][j].max = alinhamento[i-1][j-1] + 2; 
-                alinhamento[i][j].x = i-1;
-                alinhamento[i][j].y = j-1;
+                if (alinhamento[i][j].max < alinhamento[i-1][j-1].max) {
+                    alinhamento[i][j].x = i-1;
+                    alinhamento[i][j].y = j-1;
+                }
 
-                if (alinhamento[i][j].max > maximum) {
-                    maximum = alinhamento[i][j].max;
+                if (alinhamento[i][j].max < alinhamento[i][j-1].max) {
+                    alinhamento[i][j].x = i;
+                    alinhamento[i][j].y = j-1;
+                }
+
+                if (alinhamento[i][j].max < alinhamento[i-1][j].max) {
+                    alinhamento[i][j].x = i-1;
+                    alinhamento[i][j].y = j;
+                }
+                alinhamento[i][j].max = alinhamento[alinhamento[i][j].x][alinhamento[i][j].y].max + 2;
+
+                if (alinhamento[i][j].max < 0) {
+                    alinhamento[i][j].max = 0;
                 }
             }
 
             else {
                 if (a[i] != b[j]) {
-                    
-                    // alinhamento[i][j].max = max(alinhamento[i-1][j-1].max-1, (max(alinhamento[i][j-1].max, alinhamento[i-1][j].max)));
-                    // alinhamento[i][j].x = i-1;
-                    // alinhamento[i][j].y = j-1;
 
                     if (alinhamento[i][j].max < alinhamento[i-1][j-1].max) {
                         alinhamento[i][j].max = alinhamento[i-1][j-1].max;
@@ -85,21 +92,50 @@ int smith_waterman(int &n, int &m, int &a, int &b) {
         }
     }
     //TODO while valor da anterior for diferente de zero, vai voltando conforme o caminho
-    for (int i = n; i >= 0; i--){
-        for (int j = m; j >= 0; j--) {
-            if (alinhamento[i][j].x != i-1) {
-                
+    
+    while (alinhamento[n][m].max != 0){
+        if (alinhamento[n][m].x == n-1) {
+            if (alinhamento[n][m].y == m-1) {
+                notation.append(1, '*');
+                n--;
+                m--;
+                if (n<0) {n = 0;}
+                if (m<0) {m = 0;}
             }
-            
-            if (alinhamento[i][j].y != j-1) {
-                
+            else {
+                notation.append(1, '_');
+                n--;
+                m--;
+                if (n<0) {n = 0;}
+                if (m<0) {m = 0;}
+            }
+        }
+        else {
+            if (alinhamento[n][m].y == m-1) {
+                notation.append(1, '_');
+                n--;
+                m--;
+                if (n<0) {n = 0;}
+                if (m<0) {m = 0;}
+            }
+            else {
+                notation.append(1, ' ');
+                n--;
+                m--;
+                if (n<0) {n = 0;}
+                if (m<0) {m = 0;}
             }
         }
     }
+    string result;
+    for (int i = notation.lenght(); i >= 0; i--) {
+        result.append(1, notation.at(i)); //https://www.cplusplus.com/reference/string/string/at/
+    }
+    
 
     cout << '****************************' << endl;
     cout << a << endl;
-    cout << notation << endl;
+    cout << result << endl;
     cout << b << endl;
     cout << '****************************' << endl;
 
