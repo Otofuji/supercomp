@@ -10,7 +10,7 @@ struct matriz { //Com base em exemplo do professor e em https://people.engr.tamu
     double max;
 };
 
-int smith_waterman(int &n, int &m, int &a, int &b) {
+int smith_waterman(int &n, int &m, string &a, string &b) {
     //REFERÊNCIAS
     //Martin Mann, Mostafa M Mohamed, Syed M Ali, and Rolf Backofen
     //Interactive implementations of thermodynamics-based RNA structure and RNA-RNA interaction prediction approaches for example-driven teaching
@@ -24,12 +24,12 @@ int smith_waterman(int &n, int &m, int &a, int &b) {
     matriz alinhamento[n][m];
 
     string notation;
-    string tempa = ' ';
-    string tempb = ' ';
+    string tempa = " ";
+    string tempb = " ";
     int maximum = 0;
 
-    tempa.append(n, a); //https://www.techiedelight.com/append-char-end-string-cpp/
-    tempb.append(m, b);
+    tempa.append(a); //https://www.techiedelight.com/append-char-end-string-cpp/
+    tempb.append(b);
     a = tempa;
     b = tempb;
     
@@ -96,14 +96,14 @@ int smith_waterman(int &n, int &m, int &a, int &b) {
     while (alinhamento[n][m].max != 0){
         if (alinhamento[n][m].x == n-1) {
             if (alinhamento[n][m].y == m-1) {
-                notation.append(1, '*');
+                notation.append(1, "*");
                 n--;
                 m--;
                 if (n<0) {n = 0;}
                 if (m<0) {m = 0;}
             }
             else {
-                notation.append(1, '_');
+                notation.append(1, "_");
                 n--;
                 m--;
                 if (n<0) {n = 0;}
@@ -112,14 +112,14 @@ int smith_waterman(int &n, int &m, int &a, int &b) {
         }
         else {
             if (alinhamento[n][m].y == m-1) {
-                notation.append(1, '_');
+                notation.append(1, "_");
                 n--;
                 m--;
                 if (n<0) {n = 0;}
                 if (m<0) {m = 0;}
             }
             else {
-                notation.append(1, ' ');
+                notation.append(1, " ");
                 n--;
                 m--;
                 if (n<0) {n = 0;}
@@ -133,11 +133,11 @@ int smith_waterman(int &n, int &m, int &a, int &b) {
     }
     
 
-    cout << '****************************' << endl;
+    cout << "****************************" << endl;
     cout << a << endl;
     cout << result << endl;
     cout << b << endl;
-    cout << '****************************' << endl;
+    cout << "****************************" << endl;
 
     //Match = +2
     //Mismatch = -1
