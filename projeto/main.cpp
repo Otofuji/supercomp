@@ -32,7 +32,6 @@ int smith_waterman(int n, int m, string a, string b) {
     tempb.append(b);
     a = tempa;
     b = tempb;
-    
     n++;
     m++;
     for (int i = 0; i < n; i++){
@@ -104,47 +103,47 @@ int smith_waterman(int n, int m, string a, string b) {
 
     for (int i = 0; i < n; i++){
         for (int j = 0; j < m; j++) {
-            std::cout << alinhamento[i][j].max;
+            cout << alinhamento[i][j].max;
             if (j == n) {std::cout << endl;}
         }
     }
 
-    //TODO while valor da anterior for diferente de zero, vai voltando conforme o caminho
+    // //TODO while valor da anterior for diferente de zero, vai voltando conforme o caminho
     
-    while (alinhamento[n][m].max != 0){
-        if (alinhamento[n][m].x == n-1) {
-            if (alinhamento[n][m].y == m-1) {
-                notation.append("*");
-                n--;
-                m--;
-                if (n<0) {n = 0;}
-                if (m<0) {m = 0;}
-            }
-            else {
-                notation.append("_");
-                n--;
-                m--;
-                if (n<0) {n = 0;}
-                if (m<0) {m = 0;}
-            }
-        }
-        else {
-            if (alinhamento[n][m].y == m-1) {
-                notation.append("_");
-                n--;
-                m--;
-                if (n<0) {n = 0;}
-                if (m<0) {m = 0;}
-            }
-            else {
-                notation.append(" ");
-                n--;
-                m--;
-                if (n<0) {n = 0;}
-                if (m<0) {m = 0;}
-            }
-        }
-    }
+    // while (alinhamento[n][m].max != 0){
+    //     if (alinhamento[n][m].x == n-1) {
+    //         if (alinhamento[n][m].y == m-1) {
+    //             notation.append("*");
+    //             n--;
+    //             m--;
+    //             if (n<0) {n = 0;}
+    //             if (m<0) {m = 0;}
+    //         }
+    //         else {
+    //             notation.append("_");
+    //             n--;
+    //             m--;
+    //             if (n<0) {n = 0;}
+    //             if (m<0) {m = 0;}
+    //         }
+    //     }
+    //     else {
+    //         if (alinhamento[n][m].y == m-1) {
+    //             notation.append("_");
+    //             n--;
+    //             m--;
+    //             if (n<0) {n = 0;}
+    //             if (m<0) {m = 0;}
+    //         }
+    //         else {
+    //             notation.append(" ");
+    //             n--;
+    //             m--;
+    //             if (n<0) {n = 0;}
+    //             if (m<0) {m = 0;}
+    //         }
+    //     }
+    // }
     //string result;
 
     // for (int i = notation.length(); i >= 0; i--) {
@@ -152,11 +151,11 @@ int smith_waterman(int n, int m, string a, string b) {
     // }
     
 
-    std::cout << "****************************" << endl;
-    std::cout << a << endl;
-    // std::cout << result << endl;
-    std::cout << b << endl;
-    std::cout << "****************************" << endl;
+    // std::cout << "****************************" << endl;
+    // std::cout << a << endl;
+    // // std::cout << result << endl;
+    // std::cout << b << endl;
+    // std::cout << "****************************" << endl;
 
     //Match = +2
     //Mismatch = -1
@@ -169,7 +168,6 @@ int main() {
     int n; int m;
     string a; string b;
     std::cin >> n >> m >> a >> b;
-    
     int smith_waterman_max = smith_waterman(n, m, a, b);
     std::cout << "smith_waterman_max: " << smith_waterman_max << endl;
 
