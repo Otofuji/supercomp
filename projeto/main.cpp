@@ -128,7 +128,7 @@ int smith_waterman(int &n, int &m, int &a, int &b) {
         }
     }
     string result;
-    for (int i = notation.lenght(); i >= 0; i--) {
+    for (int i = notation.length(); i >= 0; i--) {
         result.append(1, notation.at(i)); //https://www.cplusplus.com/reference/string/string/at/
     }
     
