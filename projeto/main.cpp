@@ -33,14 +33,14 @@ int smith_waterman(int &n, int &m, string &a, string &b) {
     a = tempa;
     b = tempb;
     
-    for (int i = 0; i < n; i++){
-        for (int j = 0; j < m; j++){
+    for (int i = 0; i <= n; i++){
+        for (int j = 0; j <= m; j++){
             alinhamento[i][j].max = 0; //Por conveniência, a matriz inteira já foi inicializada com zeros
         }
     }
 
-    for (int i = 1; i < n; i++){
-        for (int j = 1; j < m; j++) {
+    for (int i = 1; i <= n; i++){
+        for (int j = 1; j <= m; j++) {
             if (a[i] == b[j]) {
                 if (alinhamento[i][j].max < alinhamento[i-1][j-1].max) {
                     alinhamento[i][j].x = i-1;
@@ -90,11 +90,18 @@ int smith_waterman(int &n, int &m, string &a, string &b) {
                 }
             }
 
-            cout << alinhamento[i][j].max;
-            if (j == m-1) {cout << endl;}
+            
         }
         
     }
+
+    for (int i = 0; i <= n; i++){
+        for (int j = 0; j <= m; j++) {
+            cout << alinhamento[i][j].max;
+            if (j == m) {cout << endl;}
+        }
+    }
+
     //TODO while valor da anterior for diferente de zero, vai voltando conforme o caminho
     
     while (alinhamento[n][m].max != 0){
