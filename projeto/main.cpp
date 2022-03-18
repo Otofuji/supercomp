@@ -10,7 +10,7 @@ struct matriz { //Com base em exemplo do professor e em https://people.engr.tamu
     double max;
 };
 
-int smith_waterman(int &n, int &m, string &a, string &b) {
+int smith_waterman(int n, int m, string a, string b) {
     //REFERÊNCIAS
     //Martin Mann, Mostafa M Mohamed, Syed M Ali, and Rolf Backofen
     //Interactive implementations of thermodynamics-based RNA structure and RNA-RNA interaction prediction approaches for example-driven teaching
@@ -33,14 +33,17 @@ int smith_waterman(int &n, int &m, string &a, string &b) {
     a = tempa;
     b = tempb;
     
-    for (int i = 0; i <= n; i++){
-        for (int j = 0; j <= m; j++){
+    n++;
+    m++;
+    for (int i = 0; i < n; i++){
+        for (int j = 0; j < m; j++){
             alinhamento[i][j].max = 0; //Por conveniência, a matriz inteira já foi inicializada com zeros
         }
     }
+    
 
-    for (int i = 1; i <= n; i++){
-        for (int j = 1; j <= m; j++) {
+    for (int i = 1; i < n; i++){
+        for (int j = 1; j <=m; j++) {
             if (a[i] == b[j]) {
                 if (alinhamento[i][j].max < alinhamento[i-1][j-1].max) {
                     alinhamento[i][j].x = i-1;
@@ -61,6 +64,8 @@ int smith_waterman(int &n, int &m, string &a, string &b) {
                 if (alinhamento[i][j].max < 0) {
                     alinhamento[i][j].max = 0;
                 }
+
+                
             }
 
             else {
@@ -90,15 +95,17 @@ int smith_waterman(int &n, int &m, string &a, string &b) {
                 }
             }
 
+            if (alinhamento[i][j].max > maximum) {maximum = alinhamento[i][j].max;}
+
             
         }
         
     }
 
-    for (int i = 0; i <= n; i++){
-        for (int j = 0; j <= m; j++) {
-            cout << alinhamento[i][j].max;
-            if (j == m) {cout << endl;}
+    for (int i = 0; i < n; i++){
+        for (int j = 0; j < m; j++) {
+            std::cout << alinhamento[i][j].max;
+            if (j == n) {std::cout << endl;}
         }
     }
 
@@ -138,18 +145,18 @@ int smith_waterman(int &n, int &m, string &a, string &b) {
             }
         }
     }
-    string result;
+    //string result;
 
     // for (int i = notation.length(); i >= 0; i--) {
     //     result.append(notation.at(i)); //https://www.cplusplus.com/reference/string/string/at/
     // }
     
 
-    cout << "****************************" << endl;
-    cout << a << endl;
-    cout << result << endl;
-    cout << b << endl;
-    cout << "****************************" << endl;
+    std::cout << "****************************" << endl;
+    std::cout << a << endl;
+    // std::cout << result << endl;
+    std::cout << b << endl;
+    std::cout << "****************************" << endl;
 
     //Match = +2
     //Mismatch = -1
@@ -161,10 +168,10 @@ int smith_waterman(int &n, int &m, string &a, string &b) {
 int main() {
     int n; int m;
     string a; string b;
-    cin >> n >> m >> a >> b;
+    std::cin >> n >> m >> a >> b;
     
     int smith_waterman_max = smith_waterman(n, m, a, b);
-    cout << "smith_waterman_max: " << smith_waterman_max << endl;
+    std::cout << "smith_waterman_max: " << smith_waterman_max << endl;
 
     return 0;
 }
