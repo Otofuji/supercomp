@@ -89,7 +89,11 @@ int smith_waterman(int &n, int &m, string &a, string &b) {
                     }
                 }
             }
+
+            cout << alinhamento[i][j].max;
+            if (j == m) {cout << endl;}
         }
+        
     }
     //TODO while valor da anterior for diferente de zero, vai voltando conforme o caminho
     
