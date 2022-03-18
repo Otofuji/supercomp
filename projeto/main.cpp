@@ -128,9 +128,10 @@ int smith_waterman(int &n, int &m, string &a, string &b) {
         }
     }
     string result;
-    for (int i = notation.length(); i >= 0; i--) {
-        result.append(notation.at(i)); //https://www.cplusplus.com/reference/string/string/at/
-    }
+
+    // for (int i = notation.length(); i >= 0; i--) {
+    //     result.append(notation.at(i)); //https://www.cplusplus.com/reference/string/string/at/
+    // }
     
 
     cout << "****************************" << endl;
@@ -151,7 +152,8 @@ int main() {
     string a; string b;
     cin >> n >> m >> a >> b;
     
-    int smith_waterman_max = smith_waterman(&n, &m, &a, &b);
+    int smith_waterman_max = smith_waterman(n, m, a, b);
+    cout << "smith_waterman_max: " << smith_waterman_max << endl;
 
     return 0;
 }
