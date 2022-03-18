@@ -96,14 +96,14 @@ int smith_waterman(int &n, int &m, string &a, string &b) {
     while (alinhamento[n][m].max != 0){
         if (alinhamento[n][m].x == n-1) {
             if (alinhamento[n][m].y == m-1) {
-                notation.append(1, "*");
+                notation.append("*");
                 n--;
                 m--;
                 if (n<0) {n = 0;}
                 if (m<0) {m = 0;}
             }
             else {
-                notation.append(1, "_");
+                notation.append("_");
                 n--;
                 m--;
                 if (n<0) {n = 0;}
@@ -112,14 +112,14 @@ int smith_waterman(int &n, int &m, string &a, string &b) {
         }
         else {
             if (alinhamento[n][m].y == m-1) {
-                notation.append(1, "_");
+                notation.append("_");
                 n--;
                 m--;
                 if (n<0) {n = 0;}
                 if (m<0) {m = 0;}
             }
             else {
-                notation.append(1, " ");
+                notation.append(" ");
                 n--;
                 m--;
                 if (n<0) {n = 0;}
@@ -129,7 +129,7 @@ int smith_waterman(int &n, int &m, string &a, string &b) {
     }
     string result;
     for (int i = notation.length(); i >= 0; i--) {
-        result.append(1, notation.at(i)); //https://www.cplusplus.com/reference/string/string/at/
+        result.append(notation.at(i)); //https://www.cplusplus.com/reference/string/string/at/
     }
     
 
