@@ -91,7 +91,7 @@ int smith_waterman(int &n, int &m, string &a, string &b) {
             }
 
             cout << alinhamento[i][j].max;
-            if (j == m) {cout << endl;}
+            if (j == m-1) {cout << endl;}
         }
         
     }
