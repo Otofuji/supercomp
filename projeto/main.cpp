@@ -45,13 +45,14 @@ int smith_waterman(int n, int m, string a, string b) {
 
     for (int i = 1; i < n; i++){
         for (int j = 1; j < m; j++) {
+            cout << "POSICAO " << i << " " << j << " CHARS " << a[i] << " " << b[j] << " VALOR ";
             if (a[i] == b[j]) {
                 if (alinhamento[i-1][j-1].max >= alinhamento[i][j-1].max && alinhamento[i-1][j-1].max >= alinhamento[i-1][j].max) {
                 
                     alinhamento[i][j].x = i-1;
                     alinhamento[i][j].y = j-1;
 
-                    cout << endl << "DIAGONAL" << endl << alinhamento[i][j].x << " " << alinhamento[i][j].y << endl << a[i] << " " << b[j] << endl << alinhamento[i][j].max << endl;
+                    cout << "++" ;
                  
                     
                 }
@@ -115,13 +116,11 @@ int smith_waterman(int n, int m, string a, string b) {
                 maxi = i;
                 maxj = j;
             }
-
-            if (alinhamento[i][j].max == 4) {
-                cout << endl << "QUATRO" << endl << alinhamento[i][j].x << " " << alinhamento[i][j].y << endl << endl;
-            }
+            cout << alinhamento[i][j].max << " APONTANDO PARA " << alinhamento[i][j].x << " " << alinhamento[i][j].y << endl;
+            
         }
     }    
-    
+    cout << endl;
     while (alinhamento[maxi][maxj].max != 0){
         if (alinhamento[maxi][maxj].x == maxi-1) {
             if (alinhamento[maxi][maxj].y == maxj-1) {
