@@ -1,5 +1,5 @@
-#include<iostream>
-#include<vector>
+#include <iostream>
+#include <vector>
 #include <string>
 
 using namespace std;
@@ -27,37 +27,40 @@ int smith_waterman(int n, int m, string a, string b) {
     string tempa = " ";
     string tempb = " ";
     int maximum = 0;
-
+    int maxi = 0;
+    int maxj = 0;
+ 
     tempa.append(a); //https://www.techiedelight.com/append-char-end-string-cpp/
     tempb.append(b);
     a = tempa;
     b = tempb;
     n++;
     m++;
+
     for (int i = 0; i < n; i++){
         for (int j = 0; j < m; j++){
-            alinhamento[i][j].max = 0; //Por conveniência, a matriz inteira já foi inicializada com zeros
+            alinhamento[i][j].max = 0; //Por conveniência, a matriz inteira já foi inicializada com zeros        
         }
     }
-    
 
     for (int i = 1; i < n; i++){
-        for (int j = 1; j <=m; j++) {
+        for (int j = 1; j < m; j++) {
             if (a[i] == b[j]) {
-                if (alinhamento[i][j].max < alinhamento[i-1][j-1].max) {
+                if (alinhamento[i-1][j-1].max > alinhamento[i][j-1].max && alinhamento[i-1][j-1].max > alinhamento[i-1][j].max) {
                     alinhamento[i][j].x = i-1;
                     alinhamento[i][j].y = j-1;
                 }
-
-                if (alinhamento[i][j].max < alinhamento[i][j-1].max) {
-                    alinhamento[i][j].x = i;
-                    alinhamento[i][j].y = j-1;
-                }
-
-                if (alinhamento[i][j].max < alinhamento[i-1][j].max) {
-                    alinhamento[i][j].x = i-1;
-                    alinhamento[i][j].y = j;
-                }
+                else {
+                    if (alinhamento[i][j-1].max > alinhamento[i-1][j].max) {
+                        alinhamento[i][j].x = i;
+                        alinhamento[i][j].y = j-1;
+                    }
+                    else {
+                        alinhamento[i][j].x = i-1;
+                        alinhamento[i][j].y = j;    
+                    }
+                }                
+                
                 alinhamento[i][j].max = alinhamento[alinhamento[i][j].x][alinhamento[i][j].y].max + 2;
 
                 if (alinhamento[i][j].max < 0) {
@@ -67,83 +70,77 @@ int smith_waterman(int n, int m, string a, string b) {
                 
             }
 
-            else {
-                if (a[i] != b[j]) {
-
-                    if (alinhamento[i][j].max < alinhamento[i-1][j-1].max) {
-                        alinhamento[i][j].max = alinhamento[i-1][j-1].max;
-                        alinhamento[i][j].x = i-1;
-                        alinhamento[i][j].y = j-1;
-                    }
-
+            else {            
+                if (alinhamento[i][j].max < alinhamento[i-1][j-1].max) {
+                    alinhamento[i][j].max = alinhamento[i-1][j-1].max;
+                    alinhamento[i][j].x = i-1;
+                    alinhamento[i][j].y = j-1;
+                }
+                else {
                     if (alinhamento[i][j].max < alinhamento[i][j-1].max) {
                         alinhamento[i][j].max = alinhamento[i][j-1].max;
                         alinhamento[i][j].x = i;
                         alinhamento[i][j].y = j-1;
                     }
-
-                    if (alinhamento[i][j].max < alinhamento[i-1][j].max) {
+                    else {
                         alinhamento[i][j].max = alinhamento[i-1][j].max;
                         alinhamento[i][j].x = i-1;
                         alinhamento[i][j].y = j;
                     }
-
-                    if (alinhamento[i][j].max < 0) {
-                        alinhamento[i][j].max = 0;
-                    }
-                }
+                }  
             }
-
-            if (alinhamento[i][j].max > maximum) {maximum = alinhamento[i][j].max;}
-
-            
+                
+            if (alinhamento[i][j].max > maximum) {
+                maximum = alinhamento[i][j].max;
+                maxi = i;
+                maxj = j;
+            }
         }
-        
+    }    
+    while (alinhamento[maxi][maxj].max != 0){
+        if (alinhamento[maxi][maxj].x == maxi-1) {
+            if (alinhamento[maxi][maxj].y == maxj-1) {
+                notation.append("*");
+                cout << "MATCH" << endl;
+                maxi--;
+                maxj--;
+                if (maxi<0) {maxi = 0;}
+                if (maxj<0) {maxj = 0;}
+            }
+            else {
+                notation.append("_");
+                cout << "GAP" << endl;
+                maxi--;
+                
+                if (maxi<0) {maxi = 0;}
+                if (maxj<0) {maxj = 0;}
+            }
+        }
+        else {
+            if (alinhamento[maxi][maxj].y == maxj-1) {
+                notation.append("_");
+                cout << "GAP" << endl;
+                maxj--;
+                if (maxi<0) {maxi = 0;}
+                if (maxj<0) {maxj = 0;}
+            }
+            else {
+                notation.append(" ");
+                cout << "MISMATCH" << endl;
+                alinhamento[maxi][maxj].max = 0;
+                
+            }
+        }
     }
 
     for (int i = 0; i < n; i++){
-        for (int j = 0; j < m; j++) {
-            cout << alinhamento[i][j].max;
-            if (j == n) {std::cout << endl;}
+        for (int j = 0; j < m; j++){
+            if (j == m-1) {cout << alinhamento[i][j].max << endl;}
+            else {cout << alinhamento[i][j].max;}
         }
     }
-
-    // //TODO while valor da anterior for diferente de zero, vai voltando conforme o caminho
     
-    // while (alinhamento[n][m].max != 0){
-    //     if (alinhamento[n][m].x == n-1) {
-    //         if (alinhamento[n][m].y == m-1) {
-    //             notation.append("*");
-    //             n--;
-    //             m--;
-    //             if (n<0) {n = 0;}
-    //             if (m<0) {m = 0;}
-    //         }
-    //         else {
-    //             notation.append("_");
-    //             n--;
-    //             m--;
-    //             if (n<0) {n = 0;}
-    //             if (m<0) {m = 0;}
-    //         }
-    //     }
-    //     else {
-    //         if (alinhamento[n][m].y == m-1) {
-    //             notation.append("_");
-    //             n--;
-    //             m--;
-    //             if (n<0) {n = 0;}
-    //             if (m<0) {m = 0;}
-    //         }
-    //         else {
-    //             notation.append(" ");
-    //             n--;
-    //             m--;
-    //             if (n<0) {n = 0;}
-    //             if (m<0) {m = 0;}
-    //         }
-    //     }
-    // }
+    
     //string result;
 
     // for (int i = notation.length(); i >= 0; i--) {
@@ -151,11 +148,11 @@ int smith_waterman(int n, int m, string a, string b) {
     // }
     
 
-    // std::cout << "****************************" << endl;
-    // std::cout << a << endl;
-    // // std::cout << result << endl;
-    // std::cout << b << endl;
-    // std::cout << "****************************" << endl;
+    std::cout << "****************************" << endl;
+    std::cout << a << endl;
+    // std::cout << result << endl;
+    std::cout << b << endl;
+    std::cout << "****************************" << endl;
 
     //Match = +2
     //Mismatch = -1
