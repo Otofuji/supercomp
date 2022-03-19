@@ -46,7 +46,7 @@ int smith_waterman(int n, int m, string a, string b) {
     for (int i = 1; i < n; i++){
         for (int j = 1; j < m; j++) {
             if (a[i] == b[j]) {
-                if (alinhamento[i-1][j-1].max > alinhamento[i][j-1].max && alinhamento[i-1][j-1].max > alinhamento[i-1][j].max) {
+                if (alinhamento[i-1][j-1].max >= alinhamento[i][j-1].max && alinhamento[i-1][j-1].max >= alinhamento[i-1][j].max) {
                 
                     alinhamento[i][j].x = i-1;
                     alinhamento[i][j].y = j-1;
