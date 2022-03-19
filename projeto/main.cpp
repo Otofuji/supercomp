@@ -47,17 +47,28 @@ int smith_waterman(int n, int m, string a, string b) {
         for (int j = 1; j < m; j++) {
             if (a[i] == b[j]) {
                 if (alinhamento[i-1][j-1].max > alinhamento[i][j-1].max && alinhamento[i-1][j-1].max > alinhamento[i-1][j].max) {
+                
                     alinhamento[i][j].x = i-1;
                     alinhamento[i][j].y = j-1;
+
+                    cout << endl << "DIAGONAL" << endl << alinhamento[i][j].x << " " << alinhamento[i][j].y << endl << a[i] << " " << b[j] << endl << alinhamento[i][j].max << endl;
+                 
+                    
                 }
                 else {
                     if (alinhamento[i][j-1].max > alinhamento[i-1][j].max) {
-                        alinhamento[i][j].x = i;
-                        alinhamento[i][j].y = j-1;
+                        if (j>1) {
+                            alinhamento[i][j].x = i;
+                            alinhamento[i][j].y = j-1;
+                        }
+                        
                     }
                     else {
-                        alinhamento[i][j].x = i-1;
-                        alinhamento[i][j].y = j;    
+                        if (i>1) {
+                            alinhamento[i][j].x = i-1;
+                            alinhamento[i][j].y = j;    
+                        }
+                        
                     }
                 }                
                 
@@ -72,20 +83,29 @@ int smith_waterman(int n, int m, string a, string b) {
 
             else {            
                 if (alinhamento[i][j].max < alinhamento[i-1][j-1].max) {
-                    alinhamento[i][j].max = alinhamento[i-1][j-1].max;
-                    alinhamento[i][j].x = i-1;
-                    alinhamento[i][j].y = j-1;
+                    if (i-1 > 0 && j-1 > 0) {
+                        alinhamento[i][j].max = alinhamento[i-1][j-1].max;
+                        alinhamento[i][j].x = i-1;
+                        alinhamento[i][j].y = j-1;
+                    }
+                    
                 }
                 else {
                     if (alinhamento[i][j].max < alinhamento[i][j-1].max) {
-                        alinhamento[i][j].max = alinhamento[i][j-1].max;
-                        alinhamento[i][j].x = i;
-                        alinhamento[i][j].y = j-1;
+                        if (j-1 > 0) {
+                            alinhamento[i][j].max = alinhamento[i][j-1].max;
+                            alinhamento[i][j].x = i;
+                            alinhamento[i][j].y = j-1;
+                        }
+                        
                     }
                     else {
-                        alinhamento[i][j].max = alinhamento[i-1][j].max;
-                        alinhamento[i][j].x = i-1;
-                        alinhamento[i][j].y = j;
+                        if (i-1 > 0) {
+                            alinhamento[i][j].max = alinhamento[i-1][j].max;
+                            alinhamento[i][j].x = i-1;
+                            alinhamento[i][j].y = j;
+                        }
+                        
                     }
                 }  
             }
@@ -95,8 +115,13 @@ int smith_waterman(int n, int m, string a, string b) {
                 maxi = i;
                 maxj = j;
             }
+
+            if (alinhamento[i][j].max == 4) {
+                cout << endl << "QUATRO" << endl << alinhamento[i][j].x << " " << alinhamento[i][j].y << endl << endl;
+            }
         }
     }    
+    
     while (alinhamento[maxi][maxj].max != 0){
         if (alinhamento[maxi][maxj].x == maxi-1) {
             if (alinhamento[maxi][maxj].y == maxj-1) {
