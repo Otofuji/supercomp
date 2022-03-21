@@ -10,7 +10,7 @@ struct matriz { //Com base em exemplo do professor e em https://people.engr.tamu
     double max;
 };
 
-int smith_waterman(int n, int m, string a, string b) {
+int smith_waterman(int m, int n, string a, string b) {
     //REFERÊNCIAS
     //Martin Mann, Mostafa M Mohamed, Syed M Ali, and Rolf Backofen
     //Interactive implementations of thermodynamics-based RNA structure and RNA-RNA interaction prediction approaches for example-driven teaching
@@ -21,7 +21,7 @@ int smith_waterman(int n, int m, string a, string b) {
 
     //Usar matriz clássica do C++ cm struct
     //Criando uma matriz clássica do C++ usando struct, tendo por base exemplo do professor e https://people.engr.tamu.edu/djimenez/ut/utsa/cs1723/lecture3.html
-    matriz alinhamento[n][m];
+    matriz alinhamento[m][n];
 
     string notation;
     string tempa = " ";
@@ -37,14 +37,14 @@ int smith_waterman(int n, int m, string a, string b) {
     n++;
     m++;
 
-    for (int i = 0; i < n; i++){
-        for (int j = 0; j < m; j++){
+    for (int i = 0; i < m; i++){
+        for (int j = 0; j < n; j++){
             alinhamento[i][j].max = 0; //Por conveniência, a matriz inteira já foi inicializada com zeros        
         }
     }
 
-    for (int i = 1; i < n; i++){
-        for (int j = 1; j < m; j++) {
+    for (int i = 1; i < m; i++){
+        for (int j = 1; j < n; j++) {
             cout << "POSICAO " << i << " " << j << " CHARS " << a[i] << " " << b[j] << " VALOR ";
             if (a[i] == b[j]) {
                 if (alinhamento[i-1][j-1].max >= alinhamento[i][j-1].max && alinhamento[i-1][j-1].max >= alinhamento[i-1][j].max) {
@@ -157,9 +157,9 @@ int smith_waterman(int n, int m, string a, string b) {
         }
     }
 
-    for (int i = 0; i < n; i++){
-        for (int j = 0; j < m; j++){
-            if (j == m-1) {cout << alinhamento[i][j].max << endl;}
+    for (int i = 0; i < m; i++){
+        for (int j = 0; j < n; j++){
+            if (j == n-1) {cout << alinhamento[i][j].max << endl;}
             else {cout << alinhamento[i][j].max;}
         }
     }
@@ -188,8 +188,8 @@ int smith_waterman(int n, int m, string a, string b) {
 int main() {
     int n; int m;
     string a; string b;
-    std::cin >> n >> m >> a >> b;
-    int smith_waterman_max = smith_waterman(n, m, a, b);
+    std::cin >> m >> n >> a >> b;
+    int smith_waterman_max = smith_waterman(m, n, a, b);
     std::cout << "smith_waterman_max: " << smith_waterman_max << endl;
 
     return 0;
