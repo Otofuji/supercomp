@@ -13,11 +13,16 @@ struct item
 
 int num_leaf=0, num_copy=0; // variáveis inicializadas como zero aqui para serem globais. num_leaf: toda vez que chegássemos a uma solução completa (final de recursão). num_copy faz algo semelhante, mas toda vez que comparar a solução atual com a melhor possível (num_leaf), se for melhor, soma mais um. Ver linha L67 para entender os comentários explicando o funcionamento dessas duas variáveis
 
+bool my_compare(item a, item b){
+    return b.valor < a.valor; // ordenando pelo mais caro
+}
+
 double knapSack2(int W, vector<item> items, vector<item>& usados, vector<item>& melhor){
     double valor = 0.0;
     double peso = 0.0;
     double sem_i = 0.0, com_i = 0.0;
     vector<item> items2 = items;
+    //sort(items.begin(), items.end(), my_compare);
     if(items.empty() || W == 0)
         return 0;
     else {
