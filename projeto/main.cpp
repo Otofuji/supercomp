@@ -185,6 +185,15 @@ int smith_waterman(int m, int n, string a, string b) {
     return maximum;
 }
 
+int busca_local(int m, int n, string a, string b) {
+    //1. Gerar uma subsequencia sb=b[j,j+1,...,j+k] de b, de tamanho aleatório k, 1<=k<=m, e 0<=j<=m 
+    //2. Gerar um número aleatório inteiro positivo p
+    //3. Gerar p subsequencias sa=a[i,i+1,...,i+k] de a, com tamanho k calculado no passo (1), 0<=i<=n
+    //4. Calcular os scores de cada par (sa,sb) com os pesos wmat, wmis e wgap
+    //5. Devolver o score máximo m entre os scores do passo (4) e as subsequencias associadas a ele
+    return 0;
+}
+
 int main() {
     int n; int m;
     string a; string b;
