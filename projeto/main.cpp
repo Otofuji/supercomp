@@ -200,7 +200,24 @@ int busca_exaustiva(int m, int n, string a, string b) {
     
     //2. Calcular os alinhamentos de cada par de subsequencias (a´, b´) com os pesos wmat, wmis e wgap
 
-    int max = smith_waterman(m, n, a, b);
+
+    string sa;
+    string sb;
+    int max_for_now;
+    for (int k = 0; k < m || k < n; k++) {
+        for (int q = 0; q < p; q++) {
+            for (int i = 0; i < k; i++) {
+                sa[i] = a[j+i];
+                sb[i] = b[j+1];
+                max_for_now = smith_waterman(m, n, sa, sb);
+                if (max_for_now > max) {
+                    max = max_for_now;
+                }
+            }
+        }
+    }
+    
+     
 
     //3. Devolver o score máximo m entre os scores do passo (2) e as subsequencias associadas a ele
     
