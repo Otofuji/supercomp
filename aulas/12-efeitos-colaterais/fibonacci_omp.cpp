@@ -30,10 +30,3 @@ int main() {
     time = omp_get_wtime() - time;
     cout << "Tempo em segundos : " << time << endl;
 }
-
-
-
-
-
-
-

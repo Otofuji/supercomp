@@ -1,4 +1,3 @@
-%%writefile main.cpp 
 #include <iostream>
 #include <vector>
 #include <string>
@@ -68,6 +67,7 @@ int smith_waterman(int m, int n, string a, string b) {
                 
                     alinhamento[i][j].x = i-1;
                     alinhamento[i][j].y = j-1;
+
                    
                     alinhamento[i][j].max = alinhamento[i-1][j-1].max + 2;
                     
@@ -135,77 +135,4 @@ int smith_waterman(int m, int n, string a, string b) {
     //Gap = -1
 
     return maximum;
-}
-
-/*
-int busca_local(int m, int n, string a, string b) {
-    //1. Gerar uma subsequencia sb=b[j,j+1,...,j+k] de b, de tamanho aleatório k, 1<=k<=m, e 0<=j<=m 
-    default_random_engine generator;
-    uniform_int_distribution<int> distribution(1, m);
-    int k = distribution(generator);
-    
-    default_random_engine generator;
-    uniform_int_distribution<int> distribution(0, m);
-    int j = distribution(generator);
-
-    string sb;
-    for (int i = 0; i < k; i++) {
-        sb[i] = b[j+i];
-    }
-
-    cout << "string sb: " << sb << endl; 
-
-    //2. Gerar um número aleatório inteiro positivo p
-    default_random_engine generator;
-    uniform_int_distribution<int> distribution(m+n, m*n);
-    int p = distribution(generator);
-    
-    //3. Gerar p subsequencias sa=a[i,i+1,...,i+k] de a, com tamanho k calculado no passo (1), 0<=i<=n
-    string sa;
-    for (int q = 0; q < p; q++) {
-        for (int i = 0; i < k; i++) {
-            sa[i] = a[j+i]
-        }
-    }
-    cout << "string sa: " << sa << endl;
-    //4. Calcular os scores de cada par (sa,sb) com os pesos wmat, wmis e wgap
-    //5. Devolver o score máximo m entre os scores do passo (4) e as subsequencias associadas a ele
-    return 0;
-}
-*/
- /*
-
-int busca_exaustiva(int m, int n, string a, string b) {
-    
-   
-
-    ALGORITMO BUSCA EXAUSTIVA
-    Entrada: Duas sequencias de DNA a e b
-        Pesos wmat, wmis e wgap para match, mismatch e gap respectivamente
-    Saída: Score de um alinhamento das sequencias
-        Subsequencias alinhadas
-
-    1. Gerar todas as subsequencias a´ e b´ não-nulas de a e b, respectivamente.
-    2. Calcular os alinhamentos de cada par de subsequencias (a´, b´) com os pesos wmat, wmis e wgap
-    3. Devolver o score máximo m entre os scores do passo (2) e as subsequencias associadas a ele
-
-   
-
-    return 0;
-}
-
- */
-
-int main() {
-    int n; int m;
-    string a; string b;
-    std::cin >> m >> n >> a >> b;
-    int smith_waterman_max = smith_waterman(m, n, a, b);
-    //int busca_local_max = busca_local(m, n, a, b);
-    //int busca_exaustiva_max = busca_exaustiva(m, n, a, b);
-    std::cout << "smith_waterman_max: " << smith_waterman_max << endl;
-    //std::cout << "busca_local_max: " << busca_local_max << endl;
-    //std::cout << "busca_exaustiva_max: " << busca_exaustiva_max << endl;
-
-    return 0;
 }
