@@ -1,4 +1,3 @@
-%%writefile main.cpp 
 #include <iostream>
 #include <vector>
 #include <string>
@@ -46,7 +45,7 @@ int smith_waterman(int m, int n, string a, string b) {
     for (int i = 0; i < m; i++)
         alinhamento[i] = (matriz*)malloc(n * sizeof(matriz));
  
-    cout << "N = " << n << "\nM = " << m << endl;
+    
 
 
     for (int i = 0; i < m; i++){
@@ -137,74 +136,91 @@ int smith_waterman(int m, int n, string a, string b) {
     return maximum;
 }
 
-/*
+
 int busca_local(int m, int n, string a, string b) {
     //1. Gerar uma subsequencia sb=b[j,j+1,...,j+k] de b, de tamanho aleatório k, 1<=k<=m, e 0<=j<=m 
-    default_random_engine generator;
-    uniform_int_distribution<int> distribution(1, m);
-    int k = distribution(generator);
+    default_random_engine generator1;
+    uniform_int_distribution<int> distribution1(1, m);
+    int k = distribution1(generator1);
+    cout << "int k: " << k << endl;
     
-    default_random_engine generator;
-    uniform_int_distribution<int> distribution(0, m);
-    int j = distribution(generator);
+    default_random_engine generator2;
+    uniform_int_distribution<int> distribution2(0, m);
+    int j = distribution2(generator2);
+    cout << "int j: " << j << endl;
 
     string sb;
     for (int i = 0; i < k; i++) {
-        sb[i] = b[j+i];
+        sb[i] += b[j+i];
     }
-
+    cout << "string b: " << b << endl;
     cout << "string sb: " << sb << endl; 
 
     //2. Gerar um número aleatório inteiro positivo p
-    default_random_engine generator;
-    uniform_int_distribution<int> distribution(m+n, m*n);
-    int p = distribution(generator);
+    default_random_engine generator3;
+    uniform_int_distribution<int> distribution3(m+n, m*n);
+    int p = distribution3(generator3);
+    cout << "int p: " << p << endl;
     
     //3. Gerar p subsequencias sa=a[i,i+1,...,i+k] de a, com tamanho k calculado no passo (1), 0<=i<=n
+
     string sa;
     for (int q = 0; q < p; q++) {
         for (int i = 0; i < k; i++) {
-            sa[i] = a[j+i]
+            sa[i] = a[j+i];
         }
     }
+    cout << "string a: " << a << endl;
     cout << "string sa: " << sa << endl;
     //4. Calcular os scores de cada par (sa,sb) com os pesos wmat, wmis e wgap
-    //5. Devolver o score máximo m entre os scores do passo (4) e as subsequencias associadas a ele
-    return 0;
-}
-*/
- /*
+    
+    //int wmat = 2;
+    //int wmis = -1;
+    //int wgap = -1;
 
+    int max = smith_waterman(k, k, sa, sb);
+
+    //5. Devolver o score máximo m entre os scores do passo (4) e as subsequencias associadas a ele
+    
+    return max;
+}
+
+ 
 int busca_exaustiva(int m, int n, string a, string b) {
     
    
 
-    ALGORITMO BUSCA EXAUSTIVA
-    Entrada: Duas sequencias de DNA a e b
-        Pesos wmat, wmis e wgap para match, mismatch e gap respectivamente
-    Saída: Score de um alinhamento das sequencias
-        Subsequencias alinhadas
+    //ALGORITMO BUSCA EXAUSTIVA
+    //Entrada: Duas sequencias de DNA a e b
+    //    Pesos wmat, wmis e wgap para match, mismatch e gap respectivamente
+    //Saída: Score de um alinhamento das sequencias
+    //    Subsequencias alinhadas
 
-    1. Gerar todas as subsequencias a´ e b´ não-nulas de a e b, respectivamente.
-    2. Calcular os alinhamentos de cada par de subsequencias (a´, b´) com os pesos wmat, wmis e wgap
-    3. Devolver o score máximo m entre os scores do passo (2) e as subsequencias associadas a ele
+    //1. Gerar todas as subsequencias a´ e b´ não-nulas de a e b, respectivamente.
+    
+    //2. Calcular os alinhamentos de cada par de subsequencias (a´, b´) com os pesos wmat, wmis e wgap
 
+    int max = smith_waterman(m, n, a, b);
+
+    //3. Devolver o score máximo m entre os scores do passo (2) e as subsequencias associadas a ele
+    
+    
    
 
-    return 0;
+    return max;
 }
 
- */
+ 
 
 int main() {
     int n; int m;
     string a; string b;
     std::cin >> m >> n >> a >> b;
     int smith_waterman_max = smith_waterman(m, n, a, b);
-    //int busca_local_max = busca_local(m, n, a, b);
+    int busca_local_max = busca_local(m, n, a, b);
     //int busca_exaustiva_max = busca_exaustiva(m, n, a, b);
     std::cout << "smith_waterman_max: " << smith_waterman_max << endl;
-    //std::cout << "busca_local_max: " << busca_local_max << endl;
+    std::cout << "busca_local_max: " << busca_local_max << endl;
     //std::cout << "busca_exaustiva_max: " << busca_exaustiva_max << endl;
 
     return 0;
