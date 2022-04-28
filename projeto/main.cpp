@@ -142,17 +142,20 @@ int busca_local(int m, int n, string a, string b) {
     default_random_engine generator1;
     uniform_int_distribution<int> distribution1(1, m);
     int k = distribution1(generator1);
+    while (k < m*2) k = k*2;
+    k = k/3;
     cout << "int k: " << k << endl;
     
     default_random_engine generator2;
     uniform_int_distribution<int> distribution2(0, m);
     int j = distribution2(generator2);
+    while (j < m*2) j = j*2;
+    j = j/3;
     cout << "int j: " << j << endl;
+    
 
-    string sb;
-    for (int i = 0; i < k; i++) {
-        sb[i] += b[j+i];
-    }
+    string sb = b.substr(0, k);
+    
     cout << "string b: " << b << endl;
     cout << "string sb: " << sb << endl; 
 
@@ -165,21 +168,28 @@ int busca_local(int m, int n, string a, string b) {
     //3. Gerar p subsequencias sa=a[i,i+1,...,i+k] de a, com tamanho k calculado no passo (1), 0<=i<=n
 
     string sa;
+    int max_for_now;
+    int max = 0;
+    
     for (int q = 0; q < p; q++) {
-        for (int i = 0; i < k; i++) {
-            sa[i] = a[j+i];
+        if (q+k < a.size()) sa = a.substr(q, q+k); //https://www.tutorialspoint.com/substring-in-cplusplus e https://www.tutorialspoint.com/5-different-methods-to-find-length-of-a-string-in-cplusplus 
+        else {
+          if (q < a.size())  sa = a.substr(q, a.size()-1);
+          else break;
         }
-    }
-    cout << "string a: " << a << endl;
-    cout << "string sa: " << sa << endl;
+    
     //4. Calcular os scores de cada par (sa,sb) com os pesos wmat, wmis e wgap
     
     //int wmat = 2;
     //int wmis = -1;
     //int wgap = -1;
-
-    int max = smith_waterman(k, k, sa, sb);
-
+ 
+        max_for_now = smith_waterman(sa.size(), sb.size(), sa, sb);
+        while (max_for_now > max) {
+            max++;
+        }    
+    }
+    
     //5. Devolver o score máximo m entre os scores do passo (4) e as subsequencias associadas a ele
     
     return max;
@@ -203,19 +213,21 @@ int busca_exaustiva(int m, int n, string a, string b) {
 
     string sa;
     string sb;
-    int max_for_now;
-    for (int k = 0; k < m || k < n; k++) {
+    //int max_for_now;
+    int max;
+    max = 0;
+    /*for (int k = 0; k < m || k < n; k++) {
         for (int q = 0; q < p; q++) {
             for (int i = 0; i < k; i++) {
                 sa[i] = a[j+i];
                 sb[i] = b[j+1];
                 max_for_now = smith_waterman(m, n, sa, sb);
-                if (max_for_now > max) {
-                    max = max_for_now;
+                while (max_for_now > max) {
+                    max++;
                 }
             }
         }
-    }
+    }*/
     
      
 
