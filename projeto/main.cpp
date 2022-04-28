@@ -213,14 +213,14 @@ int busca_exaustiva(int m, int n, string a, string b) {
 
     string sa;
     string sb;
-    int max_for_now;
-    int max;
-    max = 0;
+    int max_for_now = 0;
+    int max = 0;
+    
     for (int i = 0; i < m; i++) {
         for (int j = 0; j < n; j++) {
             for (int k = 0; k < m || k < n; k++) {
-                sa = a.substr(k,m);
-                sb = b.substr(k,n);
+                if (k < a.size()) sa = a.substr(k, m);
+                if (k < b.size()) sb = b.substr(k, n);
                 max_for_now = smith_waterman(sa.size(), sb.size(), sa, sb);
                 while (max_for_now > max) {
                     max++;
