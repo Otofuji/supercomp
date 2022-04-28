@@ -213,21 +213,21 @@ int busca_exaustiva(int m, int n, string a, string b) {
 
     string sa;
     string sb;
-    //int max_for_now;
+    int max_for_now;
     int max;
     max = 0;
-    /*for (int k = 0; k < m || k < n; k++) {
-        for (int q = 0; q < p; q++) {
-            for (int i = 0; i < k; i++) {
-                sa[i] = a[j+i];
-                sb[i] = b[j+1];
-                max_for_now = smith_waterman(m, n, sa, sb);
+    for (int i = 0; i < m; i++) {
+        for (int j = 0; j < n; j++) {
+            for (int k = 0; k < m || k < n; k++) {
+                sa = a.substr(k,m);
+                sb = b.substr(k,n);
+                max_for_now = smith_waterman(sa.size(), sb.size(), sa, sb);
                 while (max_for_now > max) {
                     max++;
                 }
             }
         }
-    }*/
+    }
     
      
 
@@ -247,10 +247,10 @@ int main() {
     std::cin >> m >> n >> a >> b;
     int smith_waterman_max = smith_waterman(m, n, a, b);
     int busca_local_max = busca_local(m, n, a, b);
-    //int busca_exaustiva_max = busca_exaustiva(m, n, a, b);
+    int busca_exaustiva_max = busca_exaustiva(m, n, a, b);
     std::cout << "smith_waterman_max: " << smith_waterman_max << endl;
     std::cout << "busca_local_max: " << busca_local_max << endl;
-    //std::cout << "busca_exaustiva_max: " << busca_exaustiva_max << endl;
+    std::cout << "busca_exaustiva_max: " << busca_exaustiva_max << endl;
 
     return 0;
 }
