@@ -1,6 +1,6 @@
 import random
-n = 10
-m = 40
+n = 1
+m = 4
 file = 'dna.seq'
 f = open(file, 'w')
 seq=[str(n)+'\n',

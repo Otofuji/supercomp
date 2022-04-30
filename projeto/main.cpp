@@ -144,26 +144,26 @@ int busca_local(int m, int n, string a, string b) {
     int k = distribution1(generator1);
     while (k < m*2) k = k*2;
     k = k/3;
-    cout << "int k: " << k << endl;
+    //cout << "int k: " << k << endl;
     
     default_random_engine generator2;
     uniform_int_distribution<int> distribution2(0, m);
     int j = distribution2(generator2);
     while (j < m*2) j = j*2;
     j = j/3;
-    cout << "int j: " << j << endl;
+    //cout << "int j: " << j << endl;
     
 
     string sb = b.substr(0, k);
     
-    cout << "string b: " << b << endl;
-    cout << "string sb: " << sb << endl; 
+    //cout << "string b: " << b << endl;
+    //cout << "string sb: " << sb << endl; 
 
     //2. Gerar um número aleatório inteiro positivo p
     default_random_engine generator3;
     uniform_int_distribution<int> distribution3(m+n, m*n);
     int p = distribution3(generator3);
-    cout << "int p: " << p << endl;
+    //cout << "int p: " << p << endl;
     
     //3. Gerar p subsequencias sa=a[i,i+1,...,i+k] de a, com tamanho k calculado no passo (1), 0<=i<=n
 
@@ -245,12 +245,12 @@ int main() {
     int n; int m;
     string a; string b;
     std::cin >> m >> n >> a >> b;
-    int smith_waterman_max = smith_waterman(m, n, a, b);
+    //int smith_waterman_max = smith_waterman(m, n, a, b);
     int busca_local_max = busca_local(m, n, a, b);
-    int busca_exaustiva_max = busca_exaustiva(m, n, a, b);
-    std::cout << "smith_waterman_max: " << smith_waterman_max << endl;
+    //int busca_exaustiva_max = busca_exaustiva(m, n, a, b);
+    //std::cout << "smith_waterman_max: " << smith_waterman_max << endl;
     std::cout << "busca_local_max: " << busca_local_max << endl;
-    std::cout << "busca_exaustiva_max: " << busca_exaustiva_max << endl;
+    //std::cout << "busca_exaustiva_max: " << busca_exaustiva_max << endl;
 
     return 0;
 }
