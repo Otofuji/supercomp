@@ -3,6 +3,7 @@
 #include <string>
 #include<algorithm>
 #include<random>
+#include <omp.h>
 
 using namespace std;
 
@@ -232,25 +233,58 @@ int busca_exaustiva(int m, int n, string a, string b) {
      
 
     //3. Devolver o score máximo m entre os scores do passo (2) e as subsequencias associadas a ele
-    
-    
-   
-
     return max;
 }
 
- 
+int busca_exaustiva_openmp(int m, int n, string a, string b) {
+    //ALGORITMO BUSCA EXAUSTIVA
+    //Entrada: Duas sequencias de DNA a e b
+    //    Pesos wmat, wmis e wgap para match, mismatch e gap respectivamente
+    //Saída: Score de um alinhamento das sequencias
+    //    Subsequencias alinhadas
+
+    //1. Gerar todas as subsequencias a´ e b´ não-nulas de a e b, respectivamente.
+    
+    //2. Calcular os alinhamentos de cada par de subsequencias (a´, b´) com os pesos wmat, wmis e wgap
+
+
+    string sa;
+    string sb;
+    int max_for_now = 0;
+    int max = 0;
+    
+    #pragma omp parallel for
+    for (int i = 0; i < m; i++) {
+        #pragma omp parallel for
+        for (int j = 0; j < n; j++) {
+            #pragma omp parallel for
+            for (int k = 0; k < m || k < n; k++) {
+                if (k < a.size()) sa = a.substr(k, m);
+                if (k < b.size()) sb = b.substr(k, n);
+                max_for_now = smith_waterman(sa.size(), sb.size(), sa, sb);
+                while (max_for_now > max) {
+                    max++;
+                }
+            }
+        }
+    }
+    
+    //3. Devolver o score máximo m entre os scores do passo (2) e as subsequencias associadas a ele
+    return max;
+}
 
 int main() {
     int n; int m;
     string a; string b;
     std::cin >> m >> n >> a >> b;
     //int smith_waterman_max = smith_waterman(m, n, a, b);
-    int busca_local_max = busca_local(m, n, a, b);
+    //int busca_local_max = busca_local(m, n, a, b);
     //int busca_exaustiva_max = busca_exaustiva(m, n, a, b);
+    int busca_exaustiva_max_openmp = busca_exaustiva_openmp(m, n, a, b);
     //std::cout << "smith_waterman_max: " << smith_waterman_max << endl;
-    std::cout << "busca_local_max: " << busca_local_max << endl;
+    //std::cout << "busca_local_max: " << busca_local_max << endl;
     //std::cout << "busca_exaustiva_max: " << busca_exaustiva_max << endl;
+    std::cout << "busca_exaustiva_openmp: " << busca_exaustiva_max_openmp << endl;
 
     return 0;
 }
