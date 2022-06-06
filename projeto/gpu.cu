@@ -2,98 +2,13 @@
 #include <thrust/host_vector.h>
 #include <thrust/functional.h>
 #include <thrust/transform.h>
+#include <thrust/random.h>
+#include <thrust/iterator/counting_iterator.h>
 #include <iostream>
 #include <vector>
 #include <string>
 #include<algorithm>
-#include<random>
 #include <omp.h>
-
-struct matriz { //Com base em exemplo do professor e em https://people.engr.tamu.edu/djimenez/ut/utsa/cs1723/lecture3.html
-    int x;
-    int y;
-    double max;
-};
-
-struct sw
-{
-    int m, n;
-    sw(int m_) : m(m_) {};
-    
-    __host__ __device__
-    int operator()(const char& a, const char& b) {
-            char notation;
-            char tempa = " ";
-            char tempb = " ";
-            int maximum = 0;
-            int maxi = 0;
-            int maxj = 0;
-            a = " " + a;
-            b = " " + b; 
-            n = n + 1;
-            m = m + 1;
-        //PRECISAMOS ALOCAR DINAMICAMENTE ESSA MATRIZ PARA NAO HAVER ESTOURO DE MEMORIA
-            matriz* alinhamento[m];
-            for (int i = 0; i < m; i++)
-                alinhamento[i] = (matriz*)malloc(n * sizeof(matriz));
-            for (int i = 0; i < m; i++){
-                for (int j = 0; j < n; j++){
-                    alinhamento[i][j].max = 0; //Por conveniência, a matriz inteira já foi inicializada com zeros       
-                    alinhamento[i][j].x = 0;
-                    alinhamento[i][j].y = 0; 
-                }
-            }
-            for (int i = 1; i < m; i++){
-                for (int j = 1; j < n; j++) {
-                // cout << "POSICAO " << i << " " << j << " CHARS " << a[i] << " " << b[j] << " VALOR ";
-                    if (a[i] == b[j]) {
-                        if (alinhamento[i-1][j-1].max +2 >= alinhamento[i][j-1].max - 1 && alinhamento[i-1][j-1].max +2  >= alinhamento[i-1][j].max - 1) {
-                            alinhamento[i][j].x = i-1;
-                            alinhamento[i][j].y = j-1;                    
-                            alinhamento[i][j].max = alinhamento[i-1][j-1].max + 2;
-                        }
-                        else if (alinhamento[i][j-1].max - 1 > alinhamento[i-1][j].max - 1) {
-                                    alinhamento[i][j].x = i;
-                                    alinhamento[i][j].y = j-1;
-                                    alinhamento[i][j].max = alinhamento[i][j-1].max - 1;
-                        } else {
-                                    alinhamento[i][j].x = i-1;
-                                    alinhamento[i][j].y = j;    
-                                    alinhamento[i][j].max = alinhamento[i-1][j].max - 1;
-                        }                                
-                    }
-                    else {            
-                        if (alinhamento[i-1][j-1].max -1 >= alinhamento[i][j-1].max -1 && alinhamento[i-1][j-1].max -1 >= alinhamento[i-1][j].max - 1) {
-                            alinhamento[i][j].x = i-1;
-                            alinhamento[i][j].y = j-1;
-                            alinhamento[i][j].max = alinhamento[i-1][j-1].max -1 ;
-                        }
-                        else if (alinhamento[i][j-1].max - 1 > alinhamento[i-1][j].max - 1) {
-                                    alinhamento[i][j].x = i;
-                                    alinhamento[i][j].y = j-1;
-                                    alinhamento[i][j].max = alinhamento[i][j-1].max - 1;
-                        } else {
-                                    alinhamento[i][j].x = i-1;
-                                    alinhamento[i][j].y = j;    
-                                    alinhamento[i][j].max = alinhamento[i-1][j].max - 1;                
-                        }                                
-                    }
-                    if (alinhamento[i][j].max > maximum) {
-                        maximum = alinhamento[i][j].max;
-                        maxi = i;
-                        maxj = j;
-                    }
-                    if (alinhamento[i][j].max < 0) {
-                            alinhamento[i][j].max = 0;
-                        }
-                }
-            }    
-            //Match = +2
-            //Mismatch = -1
-            //Gap = -1
-            return maximum;
-    }
-};
 
 int main() {
     // Alocação do vetor na CPU e leitura de dados da entrada-padrão
@@ -107,15 +22,46 @@ int main() {
     for(int i=0;i<n;i++)
        std::cin>>b[i];
     // Alocação do vetor na GPU e inicialização de dados
-    thrust::device_vector<double> a(a);
-    thrust::device_vector<double> b(b);
-    //inicial do algoritmo de busca exaustiva
-    char sa;
-    char sb;
-    int max_for_now = 0;
-    int max = 0;
-    //loop da busca exaustiva
-    //a ideia aqui é aproveitar a lógica da busca exaustiva, mas implementando em gpu para paralelizar usando thrust
+    thrust::device_vector<double> aa(a);
+    thrust::device_vector<double> bb(b);
 
-    return max;
+    ////1. Gerar uma subsequencia sb=b[j,j+1,...,j+k] de b, de tamanho aleatório k, 1<=k<=m, e 0<=j<=m 
+    thrust::default_random_engine generator1(1);
+    thrust::uniform_real_distribution<double> distribution1(1, m);
+    int k = distribution1(generator1);
+    while (k < m*2) k = k*2;
+    k = k/3;
+    thrust::default_random_engine generator2(1);
+    thrust::uniform_real_distribution<double> distribution2(0, m);
+    int j = distribution2(generator2);
+    while (j < m*2) j = j*2;
+    j = j/3;
+    
+    thrust::default_random_engine generator3(1);
+    thrust::uniform_real_distribution<double> distribution3(m+n, m*n);
+    int p = distribution3(generator3);
+    int max = 0;
+    int max_for_now;
+    for (int q = 0; q < p; q++) {
+        int a_size;
+        if (q+k < m-1) {
+            a_size = q+k;
+        }
+        else {
+            if (q < m-1) {
+                a_size = m-2;
+            }
+            else break;
+        }
+
+        thrust::transform(aa.begin()+q, aa.begin()+a_size, )
+
+        while (max_for_now > max) {
+            max++;
+        }
+
+        std::cout << max;
+    }
+
+    return 0;
 }
