@@ -149,12 +149,17 @@ int main() {
 
     // Alocação do vetor na GPU e inicialização de dados
     thrust::device_vector<double> a(a);
-    thrust::device_vector<double> b(b); 
+    thrust::device_vector<double> b(b);
+
+    //inicial do algoritmo de busca exaustiva
     string sa;
     string sb;
     int max_for_now = 0;
     int max = 0;
 
+    //loop da busca exaustiva
+    //a ideia aqui é aproveitar a lógica da busca exaustiva, mas implementando em gpu para paralelizar usando thrust
+    
     #pragma omp parallel for
     for (int i = 0; i < m; i++) {
         #pragma omp parallel for
