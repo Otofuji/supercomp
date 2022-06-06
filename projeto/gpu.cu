@@ -17,14 +17,14 @@ struct matriz { //Com base em exemplo do professor e em https://people.engr.tamu
 
 struct sw
 {
-    int m, int n;
+    int m, n;
     sw(int m_) : m(m_) {};
-    sw(int n_) : n(n_) {};
+    
     __host__ __device__
     int operator()(const char& a, const char& b) {
-            string notation;
-            string tempa = " ";
-            string tempb = " ";
+            char notation;
+            char tempa = " ";
+            char tempb = " ";
             int maximum = 0;
             int maxi = 0;
             int maxj = 0;
@@ -48,15 +48,11 @@ struct sw
                 // cout << "POSICAO " << i << " " << j << " CHARS " << a[i] << " " << b[j] << " VALOR ";
                     if (a[i] == b[j]) {
                         if (alinhamento[i-1][j-1].max +2 >= alinhamento[i][j-1].max - 1 && alinhamento[i-1][j-1].max +2  >= alinhamento[i-1][j].max - 1) {
-                        
                             alinhamento[i][j].x = i-1;
-                            alinhamento[i][j].y = j-1;
-                        
+                            alinhamento[i][j].y = j-1;                    
                             alinhamento[i][j].max = alinhamento[i-1][j-1].max + 2;
-                            
                         }
                         else if (alinhamento[i][j-1].max - 1 > alinhamento[i-1][j].max - 1) {
-                            
                                     alinhamento[i][j].x = i;
                                     alinhamento[i][j].y = j-1;
                                     alinhamento[i][j].max = alinhamento[i][j-1].max - 1;
@@ -107,21 +103,17 @@ int main() {
     thrust::host_vector<double> a(m);
     for(int i=0;i<m;i++)
        std::cin>>a[i];
-
     thrust::host_vector<double> b(n);
     for(int i=0;i<n;i++)
        std::cin>>b[i];
-
     // Alocação do vetor na GPU e inicialização de dados
     thrust::device_vector<double> a(a);
     thrust::device_vector<double> b(b);
-
     //inicial do algoritmo de busca exaustiva
-    string sa;
-    string sb;
+    char sa;
+    char sb;
     int max_for_now = 0;
     int max = 0;
-
     //loop da busca exaustiva
     //a ideia aqui é aproveitar a lógica da busca exaustiva, mas implementando em gpu para paralelizar usando thrust
 
