@@ -98,7 +98,6 @@ struct sw
             return maximum;
     }
 };
-    
 
 int main() {
     // Alocação do vetor na CPU e leitura de dados da entrada-padrão
