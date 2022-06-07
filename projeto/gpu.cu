@@ -10,6 +10,7 @@
 #include<algorithm>
 #include <omp.h>
 
+
 int main() {
     // Alocação do vetor na CPU e leitura de dados da entrada-padrão
     int n;
@@ -54,7 +55,31 @@ int main() {
             else break;
         }
 
-        thrust::transform(aa.begin()+q, aa.begin()+a_size, )
+        /*
+---------------------------------------------------------------------
+        */
+        
+        // thrust::counting_iterator<int>c0(1);
+        // thrust::counting_iterator<int>c1(m+1);
+        // thrust::device vector<int> calc[2];
+        // calc[0].resize(N+1);
+        // calc[1].resize(N+1);
+        // thrust::fill(calc[0].begin(),calc[0].end(),0);
+        // thrust::device_vector<char> d_s(n);
+        // for (int i = 0; i < n; i++) {
+        //     d_s[i] = s[i];
+        // };
+        // for (int j = 0; j < m; j++) {
+        //     char letradeT = T[j];
+        //     thrust::transform(c0, c1, calc[1].begin() + 1, meu_functor(d_s.data(), letradeT, calc[0].data()));
+        //     thrust::inclusive_scan(calc[1].begin()+1, calc[1].end(), calc[0].begin()+1, thurst::maximum<int>());
+        // };
+
+        // thrust::reduce(calc[0].begin()+1, calc[0].end(), 1, thrust::maximum<int>());
+
+        /*
+---------------------------------------------------------------------
+        */
 
         while (max_for_now > max) {
             max++;
